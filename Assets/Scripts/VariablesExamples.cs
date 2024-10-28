@@ -17,15 +17,16 @@ public class VariablesExamples : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("Tam ad: "+isim+" "+soyisim);
-        Debug.Log("Yaş: "+yas);
-        Debug.Log("Boy:"+boy);
-        Debug.Log("Oyun Başladı mı?"+ oyunBasladimi);
-        Debug.Log(oyunBittimi?"oyun sürüyor":"oyun bitik");
+        //Debug.Log("Tam ad: "+isim+" "+soyisim);
+        //Debug.Log("Yaş: "+yas);
+        //Debug.Log(yas);
+        //Debug.Log("Boy:"+boy);
+        //Debug.Log("Oyun Başladı mı?"+ oyunBasladimi);
+        //Debug.Log(oyunBittimi?"oyun sürüyor":"oyun bitik");
 
         //Debug.Log(isim+isim);
         //Debug.Log(yas / 3);//buradaki çıktı ne olacak sizce?
-        //Debug.Log(boy / 5f);
+        Debug.Log((float)yas / 5f);
 
         //if / if else / else yapısı
 
