@@ -11,10 +11,14 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private GameManager gm;
 
+    private Animator anim;
+    private ParticleSystem part;
     void Start()
     {
         // Rigidbody bileşenini alıyoruz
         rb = GetComponent<Rigidbody>();
+        anim = GetComponent<Animator>();
+        part= GetComponentInChildren<ParticleSystem>();
     }
 
     void Update()
@@ -33,6 +37,8 @@ public class PlayerMovement : MonoBehaviour
         // Önce dikey hızını sıfırla, sonra yukarı doğru kuvvet uygula
         rb.velocity = Vector3.zero; // Yükseklik hızını sıfırlıyoruz (0 , 0, 0)
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse); // Yukarı doğru kuvvet uyguluyoruz
+        anim.SetTrigger("JumpTrigger");
+        part.Play();
     }
     private void MoveHorizontal()
     {
@@ -45,14 +51,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        //Debug.Log(collision.gameObject.name);
-        for(int i = 0;i < collision.contactCount; i++)
+        if(collision.gameObject.tag == "Obstacle") 
         {
-            if(collision.GetContact(i).otherCollider.name == "Cube (1)" || collision.GetContact(i).otherCollider.name == "Cube (2)")
-            {
-                GameOver();
-            }
+            GameOver();
         }
+       
     }
     private void GameOver()
     {
