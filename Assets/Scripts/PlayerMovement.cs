@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -12,13 +13,14 @@ public class PlayerMovement : MonoBehaviour
     private GameManager gm;
 
     private Animator anim;
-    private ParticleSystem part;
+    //private ParticleSystem part;
     void Start()
     {
+        Time.timeScale = 1f;
         // Rigidbody bileşenini alıyoruz
         rb = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
-        part= GetComponentInChildren<ParticleSystem>();
+       // part= GetComponentInChildren<ParticleSystem>();
     }
 
     void Update()
@@ -37,8 +39,9 @@ public class PlayerMovement : MonoBehaviour
         // Önce dikey hızını sıfırla, sonra yukarı doğru kuvvet uygula
         rb.velocity = Vector3.zero; // Yükseklik hızını sıfırlıyoruz (0 , 0, 0)
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse); // Yukarı doğru kuvvet uyguluyoruz
-        anim.SetTrigger("JumpTrigger");
-        part.Play();
+        anim.SetTrigger("PlayJump");
+        //anim.SetTrigger("JumpTrigger");
+        //part.Play();
     }
     private void MoveHorizontal()
     {
@@ -60,8 +63,17 @@ public class PlayerMovement : MonoBehaviour
     private void GameOver()
     {
         Debug.Log("Game Over!");
+        Time.timeScale = 0.1f;
+        StartCoroutine(ReloadScene(0.1f));
     }
 
+    private IEnumerator ReloadScene(float timeToWait) 
+    {
+        Debug.Log("Scene will reset in "+timeToWait);
+
+        yield return new WaitForSeconds(timeToWait);
+        SceneManager.LoadScene("SampleScene");
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.name == "PointGain")
